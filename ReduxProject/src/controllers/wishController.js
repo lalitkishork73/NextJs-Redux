@@ -2,7 +2,7 @@ import wishModel from '../models/wishModel.js';
 
 async function wishData(req, res) {
     try {
-        const data = await wishModel.find();
+        const data = await wishModel.find().select({__v:0});
         if (data.length === 0) {
             return res.status(404).json({ status: false, message: 'No data found' })
         }
@@ -24,7 +24,10 @@ async function wishAbout(req, res) {
 
 async function wishSent(req, res) {
     try {
-        const sent = await wishModel.create({ wish: req.body.item })
+        console.log("done")
+        const { wish } = req.body
+        console.log(wish)
+        const sent = await wishModel.create({ wish: wish })
         if (!sent) {
             return res.status(400).json({ status: false, message: 'Enter correct wish' })
         }
@@ -38,7 +41,7 @@ async function wishSent(req, res) {
 async function wishRemove(req, res) {
     try {
 
-        const remove = await wishModel.findOneAndDelete({ _id: req.params.id })
+        const remove = await wishModel.findOneAndRemove({ _id: req.params.id })
         if (!remove) {
             return res.status(400).json({ status: false, message: 'Data all ready deleted or not found' })
         }

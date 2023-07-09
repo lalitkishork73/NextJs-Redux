@@ -26,7 +26,3 @@ export function action_add_wish(add) {
 
 }
 
-// export function action_change_name() {
-//     return 
-
-// } 
