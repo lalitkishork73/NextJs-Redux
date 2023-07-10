@@ -6,7 +6,7 @@ const Home = (props) => {
 
     useEffect(() => {
         props.getWish()
-    }, [props.getWish]);
+    }, []);
 
     const list = props.myWishes.map((items) => {
         return <a className="collection-item" key={items._id}

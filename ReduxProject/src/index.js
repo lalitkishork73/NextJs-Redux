@@ -6,7 +6,7 @@ import MongoDataBase from './config/mongoConnect.js'
 import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 MongoDataBase();
 app.use(cors())

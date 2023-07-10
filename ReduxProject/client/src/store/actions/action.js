@@ -29,7 +29,6 @@ export function action_Add_Wish(e) {
 
         var data = new URLSearchParams();
         for (const pair of new FormData(e.target)) {
-            console.log("wish", pair[1])
             data.append("wish", pair[1])
         }
         console.log(data)
