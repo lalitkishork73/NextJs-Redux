@@ -1,3 +1,4 @@
+
 const initState = {
     text: '',
     myWishes: [{ _id: 1, wish: "loading" }]
@@ -15,7 +16,6 @@ const reducer = (state = initState, action) => {
             return { ...state, myWishes: action.payload }
 
         case "REMOVE_WISH":
-            console.log(action.payload)
             const update = state.myWishes.filter(wish => wish._id !== action.payload._id);
             console.log(update)
             return {

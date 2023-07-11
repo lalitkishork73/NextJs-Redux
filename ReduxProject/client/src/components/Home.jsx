@@ -10,7 +10,7 @@ const Home = (props) => {
 
     const list = props.myWishes.map((items) => {
         return <a className="collection-item" key={items._id}
-            onClick={() => { props.DeleteWish(items._id) }}>{items.wish}</a>
+            onClick={props.DeleteWish(items._id)}>{items.wish}</a>
     })
 
     return (
