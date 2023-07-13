@@ -7,11 +7,12 @@ import jwt from 'jsonwebtoken';
 
 export const authentication = async (req, res, next) => {
     try {
-        const token = req.headers.authorization;
-        if (!token) {
+        const { authorization } = req?.headers
+        // console.log(authorization)
+        if (!authorization) {
             return res.status(401).json({ status: false, message: 'No token provided' })
         }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(authorization, process.env.JWT_SECRET);
         if (!decoded) {
             return res.status(401).json({ status: false, message: 'Invalid token' })
         }
