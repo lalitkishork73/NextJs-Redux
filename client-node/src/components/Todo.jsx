@@ -1,33 +1,45 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { TodoAdd,TodoGet } from '../reducer/todoReducer'
+import { TodoAdd, TodoGet, TodoRemove } from '../reducer/todoReducer'
+import { logout } from '../reducer/authReducer'
+
 
 const Todo = () => {
     const dispatch = useDispatch();
     const [todo, setTodo] = useState('');
+    const set = useSelector(state => state?.todo?.data)
 
-    useEffect(()=>{
-
-    },[])
+    useEffect(() => {
+        dispatch(TodoGet())
+        console.log("a")
+    }, [])
     const addTodo = () => {
         dispatch(TodoAdd({ todo }))
     }
 
-    const set = useSelector(state => state.todo.data)
+    const removeTodo = (id) => {
+        dispatch(TodoRemove(id))
+    }
 
-    /*  const fruits = [
-         'Apple',
-         'Mango',
-         'Banana',
-         'GFG'
-     ]; */
-    const list = set.map((i) => {
-        return <li key={1}>{JSON.stringify(i)}</li>
+
+    const list = set?.map((item) => {
+        return <li key={item?._id} id={item?._id} onClick={(e) => {
+            e.preventDefault()
+            removeTodo(item?._id)
+        }}>{item?.todo}</li>
     })
+
+    const logOut = () => {
+        dispatch(logout())
+    }
+
     return (
         <>
             <div className='container'>
                 <h1>Todo</h1>
+                <button className='btn' onClick={() => {
+                    logOut()
+                }}>Logout</button>
                 <div>
                     <label htmlFor="todo">Todo</label>
                     <input type="text" name="todo" id="todo"

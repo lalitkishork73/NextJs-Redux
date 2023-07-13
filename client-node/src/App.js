@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       {
-        token ? <Todo /> : <Auth />
+        token === null ? <Auth /> : <Todo />
       }
     </>
   );

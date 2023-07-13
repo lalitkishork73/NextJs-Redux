@@ -11,14 +11,17 @@ export const TodoAdd = createAsyncThunk(
     "todo/todoadd",
     async (body) => {
         const res = await Post('createtodo', body);
-        return res;
+        return await res;
     }
 )
 export const TodoGet = createAsyncThunk(
     "todo/todoget",
     async () => {
-        const res = await getTodo('todos');
-        return res;
+        const token = localStorage.getItem('token')
+        if (token !== null) {
+            const res = await getTodo('todos');
+            return await res;
+        }
     }
 )
 export const TodoRemove = createAsyncThunk(
@@ -26,7 +29,7 @@ export const TodoRemove = createAsyncThunk(
     async (id) => {
         const params = `remove/${id}`
         const res = await removeTodo(params);
-        return res;
+        return await res;
     }
 )
 
@@ -36,9 +39,14 @@ const todoReducer = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(TodoAdd.fulfilled, (state, action) => {
-            state.data = [...state.data, action.payload.data]
+            state.data = [...state?.data, action?.payload?.data]
         })
-        
+        builder.addCase(TodoGet.fulfilled, (state, action) => {
+            state.data = action?.payload?.data
+        })
+        builder.addCase(TodoRemove.fulfilled, (state, action) => {
+            state.data = state?.data.filter(item => item?._id !== action?.payload?.data?._id)
+        })
     }
 })
 
