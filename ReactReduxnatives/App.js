@@ -22,7 +22,6 @@ function App() {
   useEffect(() => {
     dispatch(addToken())
   }, [])
-  console.log(token)
   return (
     <>
       {
