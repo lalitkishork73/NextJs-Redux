@@ -14,6 +14,11 @@ app.use('/', router);
 MongoDBConnect();
 
 
+const arr=Array(10).map((item)=>{
+    console.log(item)
+})
+
+
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
