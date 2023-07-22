@@ -1,4 +1,12 @@
+const { Domain } = require('domain')
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    images:{
+        domains:["cdn.pixabay.com","images.pexels.com"]
+    } ,
+    
+    
+}
 
 module.exports = nextConfig
