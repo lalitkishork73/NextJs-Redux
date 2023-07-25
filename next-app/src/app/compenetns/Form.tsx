@@ -1,32 +1,30 @@
 'use client';
-import React from 'react';
-import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-
-interface FormValues {
-  email: string;
-  password: string;
-}
-
-interface OtherProps {
-  message: string;
-}
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Invalid email')
-    .required('email Required'),
-  password: Yup.string()
-    .min(8, 'Too Short!')
-    .max(15, 'Too Long!')
-    .required('password Required')
-});
+import {
+  useSignUpUserMutation,
+  useLoginUserMutation
+} from '../../redux/services/api';
+import { redirect } from 'next/navigation';
+import { Spin } from './subComponents/Spin';
+import type { FormValues } from '@/models/user.model';
+import { LoginSchema } from '@/validation/user.yup';
 
 const Forms = (props: any) => {
   const initialValues: FormValues = {
     email: '',
     password: ''
   };
+
+  const [updatePost, result] = useSignUpUserMutation();
+  const [loginPost, { data, ...results }] =
+    useLoginUserMutation();
+
+  console.log(data, results);
+
+  const loginF = async (val: any) => {
+    await loginPost(val);
+  };
+
   return (
     <>
       <div className="text-black flex flex-col justify-center items-center h-[79vh] mb-2 w-full p-2">
@@ -36,9 +34,13 @@ const Forms = (props: any) => {
         <Formik
           initialValues={initialValues}
           validationSchema={LoginSchema}
-          onSubmit={(values, { resetForm }) => {
+          onSubmit={(values: FormValues, { resetForm }) => {
             // same shape as initial values
-            console.log(values);
+            if (props.title === 'SignUp') {
+              updatePost({ ...values });
+            } else {
+              loginF(values);
+            }
             resetForm();
           }}
         >
@@ -83,6 +85,15 @@ const Forms = (props: any) => {
                   />
                 </div>
               </div>
+              {results.isLoading ? (
+                <Spin />
+              ) : results.isSuccess ? (
+                redirect('/todo')
+              ) : results.isError ? (
+                <h1 className="text-red-500 text-xs text-center   ">
+                  "Please Enter Valid Credentials"
+                </h1>
+              ) : null}
               <div className="flex justify-center">
                 <button
                   type="submit"

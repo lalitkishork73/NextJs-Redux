@@ -5,6 +5,10 @@ const nextConfig = {
     images:{
         domains:["cdn.pixabay.com","images.pexels.com"]
     } ,
+    compiler: {
+        // Enables the styled-components SWC transform
+        styledComponents: true
+      }
     
     
 }

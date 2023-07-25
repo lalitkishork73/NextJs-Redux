@@ -3,6 +3,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { AiOutlineClose, AiOutlineBars } from 'react-icons/ai';
 
+interface NavLi {
+  id: number;
+  link: string;
+  title: string;
+  token?: string | null;
+}
+
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
 
@@ -10,9 +17,9 @@ const Navbar = () => {
     setToggle(!toggle);
   };
 
-  const token = true;
 
-  const NavList = [
+
+  const NavList: NavLi[] = [
     { id: 1, link: '/', title: 'Home' },
     { id: 2, link: '/login', title: 'Login' },
     { id: 3, link: '/signup', title: 'SignUp' },
@@ -21,14 +28,8 @@ const Navbar = () => {
 
   const list = NavList.map((items) => {
     return (
-      
-      <li key={items.id} className="list-none p-1">
-        <Link
-          className="hover:font-bold text-orange-50"
-          href={items.link}
-        >
-          {items.title}
-        </Link>
+      <li key={items.id} className='list-none'>
+        <Link href={items.link} className='mr-2'>{items.title}</Link>
       </li>
     );
   });

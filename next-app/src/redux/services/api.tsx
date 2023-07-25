@@ -1,4 +1,7 @@
-import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {
+  createApi,
+  fetchBaseQuery
+} from '@reduxjs/toolkit/query/react';
 
 /* type AuthState={
     token:string;
@@ -7,26 +10,55 @@ import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 } */
 
 type User = {
-    id: number;
-    name: string;
-    email: number;
-  };
+  status: boolean | string | number;
+  message: string;
+  token: string;
+  id: string;
+};
 
-export const userApi=createApi({
-    reducerPath:"userApi",
-    refetchOnFocus:true,
-    baseQuery:fetchBaseQuery({
-        baseUrl:"https://jsonplaceholder.typicode.com/",
+type Us = {
+  email: string;
+  password: string;
+};
 
+export const userApi = createApi({
+  reducerPath: 'userApi',
+  refetchOnFocus: true,
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:3001/'
+  }),
+  tagTypes: ['User'],
+  endpoints: (builder) => ({
+    signUpUser: builder.mutation<User, Us>({
+      query: (data) => ({
+        url: 'signup',
+        method: 'POST',
+        body: data
+      }),
+      transformResponse: (response: User) => response,
+      transformErrorResponse: (
+        response: { status: string | number },
+        meta,
+        arg
+      ) => response.status,
+      invalidatesTags: ['User']
     }),
-    endpoints:(builder)=>({
-        getUsers: builder.query<User[], null>({
-            query: () => "users",
-          }),
-          getUserById: builder.query<User, { id: string }>({
-            query: ({ id }) => `users/${id}`,
-          }),
+    loginUser: builder.mutation({
+      query: (data) => ({
+        url: 'login',
+        method: 'POST',
+        body: data
+      }),
+      transformResponse: (response: User, meta, arg) => response,
+      transformErrorResponse: (
+        response: { status: string | number },
+        meta,
+        arg
+      ) => response.status,
+      invalidatesTags: ['User']
     })
-})
+  })
+});
 
-export const { useGetUsersQuery, useGetUserByIdQuery } = userApi;
+export const { useSignUpUserMutation, useLoginUserMutation } =
+  userApi;
