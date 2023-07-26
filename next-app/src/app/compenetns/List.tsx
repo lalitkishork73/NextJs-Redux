@@ -1,10 +1,7 @@
 'use client';
 import React from 'react';
-// import { useGetUsersQuery } from '../../redux/services/api';
-import {
-  useAppDispatch,
-  useAppSelector
-} from '../../redux/hooks';
+
+
 
 const List = () => {
   // const { isLoading, isFetching, data, error } =

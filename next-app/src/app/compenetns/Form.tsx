@@ -1,29 +1,35 @@
 'use client';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import {
-  useSignUpUserMutation,
-  useLoginUserMutation
-} from '../../redux/services/api';
-import { redirect } from 'next/navigation';
+import { loginPost } from '@/api/api';
 import { Spin } from './subComponents/Spin';
 import type { FormValues } from '@/models/user.model';
 import { LoginSchema } from '@/validation/user.yup';
+import { useState } from 'react';
+import { redirect } from 'next/navigation';
 
 const Forms = (props: any) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
   const initialValues: FormValues = {
     email: '',
     password: ''
   };
 
-  const [updatePost, result] = useSignUpUserMutation();
-  const [loginPost, { data, ...results }] =
-    useLoginUserMutation();
-
-  console.log(data, results);
-
   const loginF = async (val: any) => {
-    await loginPost(val);
+    const res = await loginPost(val);
+
+    if (res.status) {
+      setIsLoading(false);
+      setIsSuccess(true);
+      setIsError(false);
+    } else {
+      setIsError(true);
+    }
   };
+
+  
 
   return (
     <>
@@ -37,8 +43,8 @@ const Forms = (props: any) => {
           onSubmit={(values: FormValues, { resetForm }) => {
             // same shape as initial values
             if (props.title === 'SignUp') {
-              updatePost({ ...values });
             } else {
+              setIsLoading(true);
               loginF(values);
             }
             resetForm();
@@ -85,11 +91,9 @@ const Forms = (props: any) => {
                   />
                 </div>
               </div>
-              {results.isLoading ? (
-                <Spin />
-              ) : results.isSuccess ? (
-                redirect('/todo')
-              ) : results.isError ? (
+              {isLoading ? <Spin /> : null}
+              {isSuccess ? redirect('/todo') : null}
+              {isError ? (
                 <h1 className="text-red-500 text-xs text-center   ">
                   "Please Enter Valid Credentials"
                 </h1>

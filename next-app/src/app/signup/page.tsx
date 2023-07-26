@@ -1,11 +1,9 @@
 import React from 'react';
-import Forms from '../compenetns/Form'
-import { Form } from 'formik';
+import Forms from '../compenetns/Form';
 const SignUp = () => {
-
   return (
     <>
-        <Forms title="SignUp"/>
+      <Forms title="SignUp" />
     </>
   );
 };
