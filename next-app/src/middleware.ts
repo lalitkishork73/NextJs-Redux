@@ -1,24 +1,19 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 
 export default async function middleware(req: NextRequest) {
-  const responce = await fetch('http://localhost:3001/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
-  const verify = req.cookies;
-  console.log(verify);
-  console.log(req.headers);
-  console.log(req.cookies.getAll(),"all");
+  const verify: string | undefined =
+    req.cookies.get('token')?.value;
+
+  // Access cookies in server like this
+  // console.log(req.cookies.get('token')?.value);
 
   let url: string | null = req?.url;
-  /* if (!verify && url.includes('/todo')) {
-    return NextResponse.redirect('http://localhost:3000/login');
+  if (!verify && url.includes('/todo')) {
+    return NextResponse.redirect('/login');
   }
-  if (verify && url.includes('http://localhost:3000/login')) {
-    return NextResponse.redirect('http://localhost:3000/todo');
-  } */
+  if (verify && url.includes('/login')) {
+    return NextResponse.redirect('/todo');
+  }
 }

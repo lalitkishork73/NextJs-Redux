@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 config();
+import cors from 'cors'
 
 export const createUser = async (req, res, next) => {
     try {
@@ -36,6 +37,8 @@ export const createUser = async (req, res, next) => {
 
 
 export const userLogin = async (req, res, next) => {
+    const Location = req.url
+    cors({ "Access-Control-Expose-Headers": Location })
     try {
         const { email, password } = req.body;
         if (!email && !password) {
@@ -55,7 +58,7 @@ export const userLogin = async (req, res, next) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '5h' });
 
         res.cookie("token", token);
-        res.setHeader('token', token);
+        res.setHeader('Access-Control-Expose-Headers', 'Location');
         return res.status(201).json({ status: true, message: "User logged in successfully", token: token, id: user._id })
 
     } catch (err) {

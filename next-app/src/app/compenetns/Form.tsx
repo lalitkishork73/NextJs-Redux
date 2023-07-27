@@ -7,6 +7,7 @@ import { LoginSchema } from '@/validation/user.yup';
 import { useState } from 'react';
 import { redirect } from 'next/navigation';
 
+
 const Forms = (props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -28,8 +29,6 @@ const Forms = (props: any) => {
       setIsError(true);
     }
   };
-
-  
 
   return (
     <>

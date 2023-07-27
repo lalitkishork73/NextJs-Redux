@@ -1,15 +1,15 @@
 export async function loginPost(data: any) {
-  console.log(data);
-  const responce = await fetch('http://localhost:3001/login', {
+  const response = await fetch('http://localhost:3001/login', {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   });
+  
 
-//   console.log(responce);
-  const JsonResponce = await responce.json();
-  console.log(JsonResponce, 'data');
+  const JsonResponce = await response.json();
+
   return JsonResponce;
 }
