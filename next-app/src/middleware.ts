@@ -11,9 +11,9 @@ export default async function middleware(req: NextRequest) {
 
   let url: string | null = req?.url;
   if (!verify && url.includes('/todo')) {
-    return NextResponse.redirect('/login');
+    return NextResponse.redirect('http://localhost:3000/login');
   }
   if (verify && url.includes('/login')) {
-    return NextResponse.redirect('/todo');
+    return NextResponse.redirect('http://localhost:3000/todo');
   }
 }

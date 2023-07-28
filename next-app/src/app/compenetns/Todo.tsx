@@ -2,19 +2,22 @@
 import React from 'react';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-
-interface InitialVal {
-  todo: string;
-}
-const TodoSchema = Yup.object().shape({
-  todo: Yup.string().required('email Required')
-});
+import { useCreateTodoMutation } from '../../redux/services/api';
+import { TodoType } from '@/models/user.model';
+import { TodoSchema } from '@/validation/user.yup';
 
 const Todo = () => {
-  const initialValues: InitialVal = {
+  const initialValues: TodoType = {
     todo: ''
   };
-  return (
+
+  const [AddTodoRedux, result] = useCreateTodoMutation();
+
+  const AddTodo = (data: TodoType) => {
+    AddTodoRedux(data);
+  };
+
+  return ( 
     <>
       <div className=" w-full sm:min-w-min text-black">
         <div>

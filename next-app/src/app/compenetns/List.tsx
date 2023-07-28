@@ -1,11 +1,16 @@
 'use client';
-import React from 'react';
 
-
+import {
+  useGetTodoQuery,
+  useDeleteTodoQuery
+} from '@/redux/services/api';
+import { useState } from 'react';
 
 const List = () => {
   // const { isLoading, isFetching, data, error } =
   //   useGetUsersQuery(null);
+
+  const response = useGetTodoQuery();
 
   return (
     <div className="text-black text-center">

@@ -7,7 +7,6 @@ import { LoginSchema } from '@/validation/user.yup';
 import { useState } from 'react';
 import { redirect } from 'next/navigation';
 
-
 const Forms = (props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -20,12 +19,14 @@ const Forms = (props: any) => {
 
   const loginF = async (val: any) => {
     const res = await loginPost(val);
-
-    if (res.status) {
+    console.log(res?.status);
+    if (res?.status) {
       setIsLoading(false);
       setIsSuccess(true);
+      console.log(isSuccess);
       setIsError(false);
     } else {
+      setIsLoading(false);
       setIsError(true);
     }
   };

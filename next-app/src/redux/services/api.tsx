@@ -3,13 +3,49 @@ import {
   fetchBaseQuery
 } from '@reduxjs/toolkit/query/react';
 
-/* type AuthState={
-    token:string;
-    loading:boolean;
-    error:string;
-} */
+import {
+  TodoType,
+  TodoGetRes,
+  TodoRemRes
+} from '@/models/user.model';
 
-type User = {
+export const todoApi = createApi({
+  reducerPath: 'todoApi',
+  refetchOnFocus: true,
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:3001/'
+  }),
+  tagTypes: ['Todo'],
+  endpoints: (builder) => ({
+    createTodo: builder.mutation<string, TodoType>({
+      query: (data) => ({
+        url: 'createtodo',
+        method: 'post',
+        body: data
+      })
+    }),
+    getTodo: builder.query<TodoGetRes, undefined>({
+      query: () => ({
+        url: 'todos',
+        method: 'get'
+      })
+    }),
+    deleteTodo: builder.query<TodoRemRes, string>({
+      query: (id: string) => ({
+        url: `remove/${id}`,
+        method: 'delete'
+      })
+    })
+  })
+});
+
+export const {
+  useCreateTodoMutation,
+  useGetTodoQuery,
+  useDeleteTodoQuery
+} = todoApi;
+
+/* type User = {
   status: boolean | string | number;
   message: string;
   token: string;
@@ -61,4 +97,4 @@ export const userApi = createApi({
 });
 
 export const { useSignUpUserMutation, useLoginUserMutation } =
-  userApi;
+  userApi; */
