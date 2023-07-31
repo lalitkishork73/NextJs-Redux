@@ -17,7 +17,7 @@ const Todo = () => {
     AddTodoRedux(data);
   };
 
-  return ( 
+  return (
     <>
       <div className=" w-full sm:min-w-min text-black">
         <div>
@@ -26,7 +26,7 @@ const Todo = () => {
             validationSchema={TodoSchema}
             onSubmit={(values, { resetForm }) => {
               // same shape as initial values
-              console.log(values);
+              AddTodo(values);
               resetForm();
             }}
           >
@@ -44,7 +44,10 @@ const Todo = () => {
                 />
               </div>
               <div className="flex justify-center mt-1">
-                <button className="bg-orange-300 text-orange-50 p-2 rounded-lg hover:bg-orange-400">
+                <button
+                  type="submit"
+                  className="bg-orange-300 text-orange-50 p-2 rounded-lg hover:bg-orange-400"
+                >
                   Add ToDo
                 </button>
               </div>

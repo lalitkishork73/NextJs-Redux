@@ -1,19 +1,18 @@
-"use client"
-import { useCookies } from 'react-cookie';
+import React from 'react';
 import { redirect } from 'next/navigation'
-import { useEffect } from 'react';
+import { cookies } from 'next/headers'
+ 
+
 export default function Logout() {
-    const [cookies, removeToken] = useCookies(['token']);
 
-    useEffect(() => {
+    const deleteCookie = () => {
+        // Set the cookie expiration date in the past
+        console.log(document.cookie)
+    };
+    deleteCookie();
 
-    }, [removeToken])
 
-    // document.cookies('token')
-    console.log(cookies)
     return (<>
-        {
-            cookies[0]?.token ? redirect('/') : null
-        }
+
     </>)
 }

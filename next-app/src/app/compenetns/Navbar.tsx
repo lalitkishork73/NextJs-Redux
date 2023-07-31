@@ -13,7 +13,7 @@ interface NavLi {
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const cookies = useCookies(['token']); 
+  const cookies = useCookies(['token']);
 
   const navChange = () => {
     setToggle(!toggle);
@@ -51,37 +51,60 @@ const Navbar = () => {
             }
           >
             <li className="list-none">
-              <Link href="/" className="mr-2">
+              <Link
+                href="/"
+                className="mr-2"
+                onClick={() => {
+                  navChange();
+                }}
+              >
                 Home
               </Link>
             </li>
-            {cookies[0]?.token ? (
-              <>
-                <li className="list-none">
-                  <Link href="/todo" className="mr-2">
-                    Todo
-                  </Link>
-                </li>
-                <li className="list-none">
-                  <Link href="/logout" className="mr-2">
-                    Logout
-                  </Link>
-                </li>{' '}
-              </>
-            ) : (
-              <>
-                <li className="list-none">
-                  <Link href="/login" className="mr-2">
-                    Login
-                  </Link>
-                </li>
-                <li className="list-none">
-                  <Link href="/signup" className="mr-2">
-                    SignUp
-                  </Link>
-                </li>
-              </>
-            )}
+            <li className="list-none">
+              <Link
+                href="/todo"
+                className="mr-2"
+                onClick={() => {
+                  navChange();
+                }}
+              >
+                Todo
+              </Link>
+            </li>
+            <li className="list-none">
+              <Link
+                href="/logout"
+                className="mr-2"
+                onClick={() => {
+                  navChange();
+                }}
+              >
+                Logout
+              </Link>
+            </li>{' '}
+            <li className="list-none">
+              <Link
+                href="/login"
+                className="mr-2"
+                onClick={() => {
+                  navChange();
+                }}
+              >
+                Login
+              </Link>
+            </li>
+            <li className="list-none">
+              <Link
+                href="/signup"
+                className="mr-2"
+                onClick={() => {
+                  navChange();
+                }}
+              >
+                SignUp
+              </Link>
+            </li>
           </nav>
         </div>
 

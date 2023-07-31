@@ -1,4 +1,4 @@
-import React from 'react';
+'use client'
 import Forms from '../compenetns/Form'
 
 const Login = () => {

@@ -2,27 +2,69 @@
 
 import {
   useGetTodoQuery,
-  useDeleteTodoQuery
+  useDeleteTodoMutation
 } from '@/redux/services/api';
-import { useState } from 'react';
+import {
+  Key,
+  ReactElement,
+  JSXElementConstructor,
+  ReactNode,
+  ReactPortal,
+  PromiseLikeOfReactNode,
+  useEffect
+} from 'react';
+
+export interface TodoTyp {
+  _id: string;
+  todo:
+    | string
+    | number
+    | boolean
+    | ReactElement<
+        any,
+        string | JSXElementConstructor<any> // const { isLoading, isFetching, data, error } =
+        //   useGetUsersQuery(null);
+      >
+    | Iterable<ReactNode>
+    | ReactPortal
+    | PromiseLikeOfReactNode
+    | null
+    | undefined;
+}
 
 const List = () => {
   // const { isLoading, isFetching, data, error } =
   //   useGetUsersQuery(null);
 
-  const response = useGetTodoQuery();
+  
+  const { data } = useGetTodoQuery();
 
+  const [removeTodo, result] = useDeleteTodoMutation();
+  const remove = (id: string) => {
+    removeTodo(id);
+  };
+
+  useEffect(() => {}, [data]);
+
+  console.log(data);
   return (
     <div className="text-black text-center">
       <ul>
-        {/* {data?.map((user) => (
-          <div
-            key={user.id}
+        {data?.data.map((user: TodoTyp) => (
+          <li
+            key={user._id}
             className="border-1 border-[#ccc] text-center"
           >
-            <h3>{user.name}</h3>
-          </div>
-        ))} */}
+            <div
+              className="hover:text-red-500"
+              onClick={() => {
+                remove(user._id);
+              }}
+            >
+              {user.todo}
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   );

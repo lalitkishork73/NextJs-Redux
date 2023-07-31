@@ -44,3 +44,7 @@ export interface TodoRemRes {
     __v: number;
   };
 }
+
+export interface Tokens {
+  token: string;
+}

@@ -19,11 +19,10 @@ const Forms = (props: any) => {
 
   const loginF = async (val: any) => {
     const res = await loginPost(val);
-    console.log(res?.status);
+
     if (res?.status) {
       setIsLoading(false);
       setIsSuccess(true);
-      console.log(isSuccess);
       setIsError(false);
     } else {
       setIsLoading(false);

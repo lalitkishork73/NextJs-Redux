@@ -6,43 +6,55 @@ import {
 import {
   TodoType,
   TodoGetRes,
-  TodoRemRes
+  TodoRemRes,
+  TodoPostRes
 } from '@/models/user.model';
+import { RootState } from '../store';
 
 export const todoApi = createApi({
   reducerPath: 'todoApi',
+  tagTypes: ['Todo'],
   refetchOnFocus: true,
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3001/'
+    baseUrl: 'http://localhost:3001/',
+    prepareHeaders: (headers, { getState }) => {
+      const token: any = (getState() as RootState).token;
+      if (token) {
+        headers.set('authorization', token);
+      }
+      return headers;
+    }
   }),
-  tagTypes: ['Todo'],
   endpoints: (builder) => ({
-    createTodo: builder.mutation<string, TodoType>({
+    getTodo: builder.query<TodoGetRes, void>({
+      query: () => ({
+        url: 'todos',
+        method: 'get'
+      }),
+      providesTags: ['Todo']
+    }),
+    createTodo: builder.mutation<TodoPostRes, TodoType>({
       query: (data) => ({
         url: 'createtodo',
         method: 'post',
         body: data
-      })
+      }),
+      invalidatesTags: ['Todo']
     }),
-    getTodo: builder.query<TodoGetRes, undefined>({
-      query: () => ({
-        url: 'todos',
-        method: 'get'
-      })
-    }),
-    deleteTodo: builder.query<TodoRemRes, string>({
+    deleteTodo: builder.mutation<TodoRemRes, string>({
       query: (id: string) => ({
         url: `remove/${id}`,
         method: 'delete'
-      })
+      }),
+      invalidatesTags: ['Todo']
     })
   })
 });
 
 export const {
-  useCreateTodoMutation,
   useGetTodoQuery,
-  useDeleteTodoQuery
+  useCreateTodoMutation,
+  useDeleteTodoMutation
 } = todoApi;
 
 /* type User = {
